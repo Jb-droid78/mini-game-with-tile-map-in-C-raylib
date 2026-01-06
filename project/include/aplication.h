@@ -1,10 +1,14 @@
 #ifndef APLICATION_H
 #define APLICATION_H
 
+#include "map/map.h"
+
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 690
+#define FPS 90
 
 typedef struct {
+	Map map;
 } App;
 
 void app_init(App *app);

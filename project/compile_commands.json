@@ -32,5 +32,22 @@
     "directory": "/home/jb/Documentos/projetos/game-raylib/project",
     "file": "/home/jb/Documentos/projetos/game-raylib/project/src/main.c",
     "output": "/home/jb/Documentos/projetos/game-raylib/project/bin/game"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-I",
+      "include",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address,undefined",
+      "-o",
+      "bin/game",
+      "src/map/map.c"
+    ],
+    "directory": "/home/jb/Documentos/projetos/game-raylib/project",
+    "file": "/home/jb/Documentos/projetos/game-raylib/project/src/map/map.c",
+    "output": "/home/jb/Documentos/projetos/game-raylib/project/bin/game"
   }
 ]

@@ -1,4 +1,5 @@
 #include "aplication.h"
+#include "map/map.h"
 
 #include "raylib.h"
 #include <stdlib.h>
@@ -6,11 +7,14 @@
 void app_init(App *app) 
 {
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "game enginee 2D");
-	SetTargetFPS(90);
+	SetTargetFPS(FPS);
+
+	map_init(&app->map);
 }
 
 void app_destroy(App *app)
 {
+	map_destroy(&app->map);
 	CloseWindow();
 }
 
@@ -42,6 +46,7 @@ void app_draw(App *app)
 	BeginDrawing();
 	ClearBackground(BLACK);
 
+	map_draw(&app->map);
 
 	DrawFPS(10, 7);
 	EndDrawing();
