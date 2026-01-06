@@ -12,7 +12,7 @@ void map_init(Map *map)
 	map->size = MAP_WIDTH * MAP_HEIGHT;
 	map->tile = calloc(map->size, sizeof(Tile));
 	if (map->tile == NULL) {
-		perror("Error: the file could not be opened!\n");
+		perror("Error: failure while attempting to allocate mamory!\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -34,14 +34,13 @@ void map_load(Map *map)
 		exit(EXIT_FAILURE);
 	}
 	
-	size_t i = 0;
 	int c;
+	size_t i = 0;
 	while ((c = fgetc(file)) != EOF && i < map->size) {
 		if (c == '\n' || c == ' ' || c == '\0' || c == 0) continue;
 		map_format(map, (char)c, i);
 		i++;
 	}
-	
 	fclose(file);
 }
 
@@ -49,11 +48,11 @@ void map_format(Map *map, const char symbol, size_t index)
 {
 	switch (symbol) {
 		case '.': 
-			map->tile[index].physics = 0;
+			// map->tile[index].physics = 0;
 			map->tile[index].color = BLACK;
 			break;
 		case ':': 
-			map->tile[index].physics = 0;
+			// map->tile[index].physics = 0;
 			map->tile[index].color = GRAY;
 			break;
 		case '#': 
@@ -63,6 +62,10 @@ void map_format(Map *map, const char symbol, size_t index)
 		case '=':
 			map->tile[index].physics = SOLID;
 			map->tile[index].color = WHITE; 
+			break;
+		default:
+			// map->tile[index].physics = 0;
+			map->tile[index].color = GREEN; 
 			break;
 	}
 }
