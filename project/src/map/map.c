@@ -43,6 +43,10 @@ void map_load(Map *map)
 		map_format(map, (char)c, i);
 		i++;
 	}
+	if (i != map->size) { 
+		perror("Error: Invalid Map Size!\n");
+		exit(EXIT_FAILURE); 
+	}
 	fclose(file);
 }
 

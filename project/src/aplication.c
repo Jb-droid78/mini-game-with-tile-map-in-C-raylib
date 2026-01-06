@@ -2,7 +2,7 @@
 #include "entities/player.h"
 #include "map/map.h"
 
-#include "raylib.h"
+#include <raylib.h>
 #include <stdlib.h>
 
 void app_init(App *app) 

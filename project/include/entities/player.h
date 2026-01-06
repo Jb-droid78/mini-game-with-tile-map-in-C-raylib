@@ -2,7 +2,8 @@
 #define PLAYER_H
 
 #include "map/map.h"
-#include "raylib.h"
+
+#include <raylib.h>
 
 typedef struct {
 	Vector2 position;
