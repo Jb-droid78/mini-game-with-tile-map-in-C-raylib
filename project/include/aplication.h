@@ -2,6 +2,7 @@
 #define APLICATION_H
 
 #include "map/map.h"
+#include "entities/player.h"
 
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 690
@@ -9,6 +10,7 @@
 
 typedef struct {
 	Map map;
+	Player player;
 } App;
 
 void app_init(App *app);

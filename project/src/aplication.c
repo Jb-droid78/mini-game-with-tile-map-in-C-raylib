@@ -1,4 +1,5 @@
 #include "aplication.h"
+#include "entities/player.h"
 #include "map/map.h"
 
 #include "raylib.h"
@@ -10,6 +11,7 @@ void app_init(App *app)
 	SetTargetFPS(FPS);
 
 	map_init(&app->map);
+	player_init(&app->player);
 }
 
 void app_destroy(App *app)
@@ -39,6 +41,7 @@ void app_runLoop(App *app)
 
 void app_update(App *app, float dt)
 {	
+	player_update(&app->player, &app->map, dt);
 }
 
 void app_draw(App *app)
@@ -47,6 +50,7 @@ void app_draw(App *app)
 	ClearBackground(BLACK);
 
 	map_draw(&app->map);
+	player_draw(&app->player);
 
 	DrawFPS(10, 7);
 	EndDrawing();

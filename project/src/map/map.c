@@ -3,9 +3,11 @@
 
 #include <assert.h>
 #include <raylib.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 
 void map_init(Map *map)
 {
@@ -68,6 +70,23 @@ void map_format(Map *map, const char symbol, size_t index)
 			map->tile[index].color = GREEN; 
 			break;
 	}
+}
+
+bool map_hasFlags(Map *map, float x, float y, TileFlags flag)
+{
+	size_t index = map_getTileIndexAt(map, x, y);
+	if (index >= map->size) return true;
+	return (map->tile[index].physics & flag) == flag;
+}
+
+size_t map_getTileIndexAt(Map *map, float x, float y)
+{
+	if (x < 0 || y < 0) return map->size + 1;
+	int tx = (int)(x / TILE_SIZE);
+	int ty = (int)(y / TILE_SIZE);
+
+	if (tx < 0 || tx >= MAP_WIDTH || ty < 0 || ty >= MAP_HEIGHT) return map->size + 1;
+	return (size_t)ty * MAP_WIDTH + tx;
 }
 
 void map_draw(Map *map) 
