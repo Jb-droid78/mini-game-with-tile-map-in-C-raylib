@@ -1,7 +1,7 @@
-#include <stdio.h>
+#include "aplication.h"
 
-int main() 
+int main(void) 
 {
-	printf("Ola, Mundo!\n");
-	return 0;
+	App app;
+	return app_execute(&app);
 }

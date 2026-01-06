@@ -10,6 +10,23 @@
       "-fsanitize=address,undefined",
       "-o",
       "bin/game",
+      "src/aplication.c"
+    ],
+    "directory": "/home/jb/Documentos/projetos/game-raylib/project",
+    "file": "/home/jb/Documentos/projetos/game-raylib/project/src/aplication.c",
+    "output": "/home/jb/Documentos/projetos/game-raylib/project/bin/game"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-I",
+      "include",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address,undefined",
+      "-o",
+      "bin/game",
       "src/main.c"
     ],
     "directory": "/home/jb/Documentos/projetos/game-raylib/project",
