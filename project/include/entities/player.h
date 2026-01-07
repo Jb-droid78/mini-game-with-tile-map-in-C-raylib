@@ -5,7 +5,7 @@
 
 #include <raylib.h>
 
-typedef struct {
+typedef struct Player {
 	Vector2 position;
 	Color color;
 	int size;
@@ -19,5 +19,5 @@ void player_handleInput(Player *player, Map *map, float dt);
 void player_chechHitbox(Player *player, Map *map, float dt, int dx, int dy);
 void player_draw(Player *player);
 
-#endif
+#endif // PLAYER_H
 

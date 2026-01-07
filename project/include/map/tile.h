@@ -11,9 +11,9 @@ typedef enum {
 	DAMAGE = 1 << 1,
 } TileFlags;
 
-typedef struct {
+typedef struct Tile {
 	int physics;
 	Color color;
 } Tile; 
 
-#endif
+#endif // TILE_H

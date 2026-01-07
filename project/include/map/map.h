@@ -8,7 +8,7 @@
 #define MAP_WIDTH 36
 #define MAP_HEIGHT 23
 
-typedef struct {
+typedef struct Map {
 	Tile *tile;
 	size_t size;
 } Map;
@@ -24,4 +24,4 @@ size_t map_getTileIndexAt(Map *map, float x, float y);
 
 void map_draw(Map *map);
 
-#endif
+#endif // MAP_H

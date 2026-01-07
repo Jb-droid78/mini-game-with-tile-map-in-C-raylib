@@ -8,7 +8,7 @@
 #define WINDOW_HEIGHT 690
 #define FPS 90
 
-typedef struct {
+typedef struct App {
 	Map map;
 	Player player;
 } App;
@@ -21,4 +21,4 @@ void app_runLoop(App *app);
 void app_update(App *app, float dt);
 void app_draw(App *app);
 
-#endif
+#endif // APLICATION_H
