@@ -1,4 +1,6 @@
 #include "entities/player.h"
+#include "entities/projectile.h"
+#include "managers/projectile_manager.h"
 #include "map/map.h"
 #include "map/tile.h"
 
@@ -11,14 +13,20 @@ void player_init(Player *player)
 	player->size = 20;
 	player->speed = 230;
 	player->color = GREEN;
+	player->attackTime = 0;
 }
 
-void player_update(Player *player, Map *map, float dt) 
+void player_update(Player *player, Map *map, ProjectileManager *pm, float dt) 
 {
-	player_handleInput(player, map, dt);
+	if (player->attackTime > 0) {
+		player->attackTime -= dt;
+		if (player->attackTime < 0) player->attackTime = 0;
+	}
+
+	player_handleInput(player, map, pm, dt);
 }
 
-void player_handleInput(Player *player, Map *map, float dt)
+void player_handleInput(Player *player, Map *map, ProjectileManager *pm, float dt)
 {
 	int dx = 0;
 	int dy = 0;
@@ -29,6 +37,12 @@ void player_handleInput(Player *player, Map *map, float dt)
 	if (IsKeyDown(KEY_D)) dx = 1;
 	
 	player_chechHitbox(player, map, dt, dx, dy);
+
+	if (player->attackTime > 0) return;
+	if      (IsKeyDown(KEY_UP))    player_shoot(player, pm, UP);
+	else if (IsKeyDown(KEY_DOWN))  player_shoot(player, pm, DOWN);
+	else if (IsKeyDown(KEY_LEFT))  player_shoot(player, pm, LEFT);
+	else if (IsKeyDown(KEY_RIGHT)) player_shoot(player, pm, RIGHT);
 }
 
 void player_chechHitbox(Player *player, Map *map, float dt, int dx, int dy)
@@ -48,6 +62,17 @@ void player_chechHitbox(Player *player, Map *map, float dt, int dx, int dy)
 			!map_hasFlags(map, player->position.x + player->size, checkY, SOLID)) {
 		player->position.y = nextY;
 	}
+}
+
+void player_shoot(Player *player, ProjectileManager *pm, Direction dir)
+{
+	Vector2 position; 
+
+	position.x = player->position.x + 5;
+	position.y = player->position.y + 5;
+
+	player->attackTime = ATTACK_TIME;
+	pm_active(pm, position, (int)(player->size / 2), 300, dir, BLUE, PLAYER);
 }
 
 void player_draw(Player *player)

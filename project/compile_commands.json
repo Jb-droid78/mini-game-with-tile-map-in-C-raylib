@@ -66,5 +66,39 @@
     "directory": "/home/jb/Documentos/projetos/game-raylib/project",
     "file": "/home/jb/Documentos/projetos/game-raylib/project/src/entities/player.c",
     "output": "/home/jb/Documentos/projetos/game-raylib/project/bin/game"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-I",
+      "include",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address,undefined",
+      "-o",
+      "bin/game",
+      "src/entities/projectile.c"
+    ],
+    "directory": "/home/jb/Documentos/projetos/game-raylib/project",
+    "file": "/home/jb/Documentos/projetos/game-raylib/project/src/entities/projectile.c",
+    "output": "/home/jb/Documentos/projetos/game-raylib/project/bin/game"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-I",
+      "include",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address,undefined",
+      "-o",
+      "bin/game",
+      "src/managers/projectile_manager.c"
+    ],
+    "directory": "/home/jb/Documentos/projetos/game-raylib/project",
+    "file": "/home/jb/Documentos/projetos/game-raylib/project/src/managers/projectile_manager.c",
+    "output": "/home/jb/Documentos/projetos/game-raylib/project/bin/game"
   }
 ]

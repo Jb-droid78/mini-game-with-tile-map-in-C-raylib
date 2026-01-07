@@ -4,6 +4,8 @@
 #include "map/map.h"
 #include "entities/player.h"
 
+#include "managers/projectile_manager.h"
+
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 690
 #define FPS 90
@@ -11,6 +13,7 @@
 typedef struct App {
 	Map map;
 	Player player;
+	ProjectileManager pm;
 } App;
 
 void app_init(App *app);

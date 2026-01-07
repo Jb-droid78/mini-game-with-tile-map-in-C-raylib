@@ -1,2 +1,4 @@
 project/.cache/
 project/bin/
+project/build.sh
+project/compile_commands.json

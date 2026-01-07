@@ -43,7 +43,7 @@ void projectile_draw(Projectile *projectile)
 {
 	DrawRectangle(
 		(int)projectile->position.x, 
-		(int)projectile->position.x, 
+		(int)projectile->position.y, 
 		projectile->size, 
 		projectile->size, 
 		projectile->color
