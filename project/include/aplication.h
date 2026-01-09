@@ -8,7 +8,7 @@
 
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 690
-#define FPS 90
+#define FPS 60
 
 typedef struct App {
 	Map map;
