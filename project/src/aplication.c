@@ -1,4 +1,5 @@
 #include "aplication.h"
+#include "entities/enemy.h"
 #include "entities/player.h"
 #include "managers/projectile_manager.h"
 #include "map/map.h"
@@ -13,6 +14,9 @@ void app_init(App *app)
 
 	map_init(&app->map);
 	player_init(&app->player);
+
+	Vector2 p = {400, 345};
+	enemy_init(&app->enemy, p, 30, 100, RED, FOLLOW);
 }
 
 void app_destroy(App *app)
@@ -44,6 +48,8 @@ void app_update(App *app, float dt)
 {	
 	player_update(&app->player, &app->map, &app->pm, dt);
 	pm_update(&app->pm, &app->map, dt);
+
+	enemy_update(&app->enemy, &app->map, &app->pm, app->player.position, (float)app->player.size, dt);
 }
 
 void app_draw(App *app)
@@ -54,6 +60,8 @@ void app_draw(App *app)
 	map_draw(&app->map);
 	player_draw(&app->player);
 	pm_draw(&app->pm);
+
+	enemy_draw(&app->enemy);
 
 	DrawFPS(10, 7);
 	EndDrawing();

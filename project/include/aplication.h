@@ -1,6 +1,7 @@
 #ifndef APLICATION_H
 #define APLICATION_H
 
+#include "entities/enemy.h"
 #include "map/map.h"
 #include "entities/player.h"
 
@@ -14,6 +15,8 @@ typedef struct App {
 	Map map;
 	Player player;
 	ProjectileManager pm;
+
+	Enemy enemy; // temp
 } App;
 
 void app_init(App *app);

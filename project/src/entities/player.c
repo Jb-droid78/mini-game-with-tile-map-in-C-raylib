@@ -47,19 +47,19 @@ void player_handleInput(Player *player, Map *map, ProjectileManager *pm, float d
 
 void player_chechHitbox(Player *player, Map *map, float dt, int dx, int dy)
 {
-	float nextX = player->position.x + (dx * (player->speed * dt));
-	float nextY = player->position.y + (dy * (player->speed * dt));
+	float nextX = player->position.x + dx * player->speed * dt;
+	float nextY = player->position.y + dy * player->speed * dt;
 
-	float checkX = (dx > 0) ? nextX + player->size : nextX;
-	float checkY = (dy > 0) ? nextY + player->size : nextY;
+	float checkX = (dx > 0) ? nextX + (float)player->size : nextX;
+	float checkY = (dy > 0) ? nextY + (float)player->size : nextY;
 
-	if (!map_hasFlags(map, checkX, player->position.y, SOLID) || 
-			!map_hasFlags(map, checkX, player->position.y + player->size, SOLID)) {	
+	if (!map_hasFlags(map, checkX, player->position.y, SOLID) && 
+			!map_hasFlags(map, checkX, player->position.y + (float)player->size, SOLID)) {	
 		player->position.x = nextX;
 	}
 
-	if (!map_hasFlags(map, player->position.x, checkY, SOLID) ||
-			!map_hasFlags(map, player->position.x + player->size, checkY, SOLID)) {
+	if (!map_hasFlags(map, player->position.x, checkY, SOLID) &&
+			!map_hasFlags(map, player->position.x + (float)player->size, checkY, SOLID)) {
 		player->position.y = nextY;
 	}
 }
@@ -68,8 +68,8 @@ void player_shoot(Player *player, ProjectileManager *pm, Direction dir)
 {
 	Vector2 position; 
 
-	position.x = player->position.x + 5;
-	position.y = player->position.y + 5;
+	position.x = player->position.x + (float)player->size / 4;
+	position.y = player->position.y + (float)player->size / 4;
 
 	player->attackTime = ATTACK_TIME;
 	pm_active(pm, position, (int)(player->size / 2), 300, dir, BLUE, PLAYER);

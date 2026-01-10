@@ -17,7 +17,7 @@ void map_init(Map *map)
 		perror("Error: failure while attempting to allocate mamory!\n");
 		exit(EXIT_FAILURE);
 	}
-
+	// ola mundo
 	map_load(map);
 }
 
