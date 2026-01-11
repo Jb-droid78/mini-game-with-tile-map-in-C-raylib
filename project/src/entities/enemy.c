@@ -5,7 +5,6 @@
 #include <math.h>
 #include <raylib.h>
 
-
 void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color color, uint32_t flags)
 {
 	enemy->update = enemy_update;
@@ -19,13 +18,13 @@ void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color col
 
 void enemy_update(Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt)
 {
-	enemy_movement(enemy, map, playerPos, playerSize, dt);
-	// enemy_shoot(enemy, pm, playerPos, playerSize);
+	if      (enemy->type & FOLLOW)  enemy_movement(enemy, map, playerPos, playerSize, dt);
+	else if (enemy->type & SHOOTER) enemy_shoot(enemy, pm, playerPos, playerSize);
+	
 }
 
 void enemy_movement(Enemy *enemy, Map *map, Vector2 playerPos, float playerSize, float dt)
 {
-	if ((enemy->type & FOLLOW) == 0) return;
 
 	float cx = (playerPos.x + playerSize / 2) - (enemy->position.x + (float)enemy->size / 2);
 	float cy = (playerPos.y + playerSize / 2) - (enemy->position.y + (float)enemy->size / 2);
@@ -35,24 +34,22 @@ void enemy_movement(Enemy *enemy, Map *map, Vector2 playerPos, float playerSize,
 	
 	float size = (float)enemy->size;
 
-	int dx = 0;
-	int dy = 0;
+	float velX = (cx / distance) * enemy->speed * dt;
+	float velY = (cy / distance) * enemy->speed * dt;
 	
-	if (enemy->position.x > playerPos.x) dx = -1;
-	if (enemy->position.x < playerPos.x) dx = 1;
-	if (enemy->position.y > playerPos.y) dy = -1;
-	if (enemy->position.y < playerPos.y) dy = 1;
+	int dx = (velX > 0) ? 1 : (velY < 0 ? -1 : 0);
+	int dy = (velY > 0) ? 1 : (velX < 0 ? -1 : 0);
 
-	float nextX = enemy->position.x + (cx / distance) * enemy->speed * dt;
-	float nextY = enemy->position.y + (cy / distance) * enemy->speed * dt;
-
+	float nextX = enemy->position.x + velX;
 	float checkX = (dx > 0) ? nextX + size : nextX;
-	float checkY = (dy > 0) ? nextY + size : nextY;
 
 	if (!map_hasFlags(map, checkX, enemy->position.y, SOLID) && 
 			!map_hasFlags(map, checkX, enemy->position.y + size, SOLID)) {
 		enemy->position.x = nextX;
 	}
+
+	float nextY = enemy->position.y + velY;
+	float checkY = (dy > 0) ? nextY + size : nextY;
 
 	if (!map_hasFlags(map, enemy->position.x, checkY, SOLID) && 
 			!map_hasFlags(map, enemy->position.x + size, checkY, SOLID)) {
@@ -62,7 +59,7 @@ void enemy_movement(Enemy *enemy, Map *map, Vector2 playerPos, float playerSize,
 
 void enemy_shoot(Enemy *enemy, ProjectileManager *pm, Vector2 playerPos, float playerSize)
 {
-	
+	// fazer essa bomba logo
 }
 
 void enemy_draw(Enemy *enemy)

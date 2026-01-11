@@ -16,7 +16,7 @@ void app_init(App *app)
 	player_init(&app->player);
 
 	Vector2 p = {400, 345};
-	enemy_init(&app->enemy, p, 30, 100, RED, FOLLOW);
+	enemy_init(&app->enemy, p, 45, 150, RED, FOLLOW);
 }
 
 void app_destroy(App *app)
