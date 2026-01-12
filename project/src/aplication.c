@@ -15,8 +15,8 @@ void app_init(App *app)
 	map_init(&app->map);
 	player_init(&app->player);
 
-	Vector2 p = {400, 345};
-	enemy_init(&app->enemy, p, 45, 150, RED, FOLLOW);
+	Vector2 p = {40, 345};
+	enemy_init(&app->enemy, p, 30, 2, RED, SHOOTER);
 }
 
 void app_destroy(App *app)

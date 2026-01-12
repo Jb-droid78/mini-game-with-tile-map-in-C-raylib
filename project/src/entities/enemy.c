@@ -1,9 +1,13 @@
 #include "entities/enemy.h"
 #include "map/map.h"
 #include "map/tile.h"
+#include "utils/clamp.h"
 
 #include <math.h>
 #include <raylib.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
 
 void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color color, uint32_t flags)
 {
@@ -18,27 +22,19 @@ void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color col
 
 void enemy_update(Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt)
 {
-	if      (enemy->type & FOLLOW)  enemy_movement(enemy, map, playerPos, playerSize, dt);
-	else if (enemy->type & SHOOTER) enemy_shoot(enemy, pm, playerPos, playerSize);
-	
+	if (enemy->type & FOLLOW)  enemy_follow(enemy, map, playerPos, playerSize, dt);
+	if (enemy->type & SHOOTER) enemy_shoot(enemy, map, pm, playerPos, playerSize, dt);
 }
 
-void enemy_movement(Enemy *enemy, Map *map, Vector2 playerPos, float playerSize, float dt)
+void enemy_movement(Enemy *enemy, Map *map, float valueX, float valueY, float dt)
 {
-
-	float cx = (playerPos.x + playerSize / 2) - (enemy->position.x + (float)enemy->size / 2);
-	float cy = (playerPos.y + playerSize / 2) - (enemy->position.y + (float)enemy->size / 2);
-
-	float distance = sqrt(cx * cx + cy * cy);
-	if (distance < 8.0) return;
-	
 	float size = (float)enemy->size;
-
-	float velX = (cx / distance) * enemy->speed * dt;
-	float velY = (cy / distance) * enemy->speed * dt;
+					
+	float velX = valueX * enemy->speed * dt;
+	float velY = valueY * enemy->speed * dt;
 	
-	int dx = (velX > 0) ? 1 : (velY < 0 ? -1 : 0);
-	int dy = (velY > 0) ? 1 : (velX < 0 ? -1 : 0);
+	int dx = (velX > 0) ? 1 : (velX < 0 ? -1 : 0);
+	int dy = (velY > 0) ? 1 : (velY < 0 ? -1 : 0); 
 
 	float nextX = enemy->position.x + velX;
 	float checkX = (dx > 0) ? nextX + size : nextX;
@@ -57,9 +53,37 @@ void enemy_movement(Enemy *enemy, Map *map, Vector2 playerPos, float playerSize,
 	}
 }
 
-void enemy_shoot(Enemy *enemy, ProjectileManager *pm, Vector2 playerPos, float playerSize)
+void enemy_shoot(Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt)
 {
-	// fazer essa bomba logo
+	float cx = 0;
+	float cy = 0;
+	enemy_calcDifference(enemy, playerPos, playerSize, &cx, &cy, SHOOTER);
+
+	float erro = clamp(cy, -50, 50);
+	if (erro > 8.f || erro < -8.f) enemy_movement(enemy, map, cx, erro, dt);
+}
+
+void enemy_follow(Enemy *enemy, Map *map, Vector2 playerPos, float playerSize, float dt)
+{
+	float cx = 0;
+	float cy = 0;
+	enemy_calcDifference(enemy, playerPos, playerSize, &cx, &cy, FOLLOW);
+	
+	float distance = sqrt(cx * cx + cy * cy);
+	if (distance < 8.f || cx == 0.f || cy == 0.f) return;
+
+	float dx = (cx / distance);
+	float dy = (cy / distance);
+	enemy_movement(enemy, map, dx, dy, dt);
+}
+
+void enemy_calcDifference(Enemy *enemy, Vector2 playerPos, float playerSize, float *cx, float *cy, uint32_t flag)
+{
+	float cyCalc = (playerPos.y + playerSize / 2) - (enemy->position.y + (float)enemy->size / 2);
+	float cxCalc = (playerPos.x + playerSize / 2) - (enemy->position.x + (float)enemy->size / 2);
+
+	if (flag & SHOOTER) { *cy = cyCalc;	} 
+	if (flag & FOLLOW) { *cx = cxCalc; *cy = cyCalc; }
 }
 
 void enemy_draw(Enemy *enemy)
