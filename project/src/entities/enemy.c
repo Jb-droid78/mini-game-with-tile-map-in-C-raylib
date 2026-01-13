@@ -1,4 +1,6 @@
 #include "entities/enemy.h"
+#include "entities/projectile.h"
+#include "managers/projectile_manager.h"
 #include "map/map.h"
 #include "map/tile.h"
 #include "utils/clamp.h"
@@ -7,7 +9,6 @@
 #include <raylib.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 
 void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color color, uint32_t flags)
 {
@@ -18,10 +19,16 @@ void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color col
 	enemy->speed = speed;
 	enemy->color = color;
 	enemy->type = flags;
+	enemy->attackTime = 0;
 }
 
 void enemy_update(Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt)
 {
+	if (enemy->attackTime > 0) {
+		enemy->attackTime -= dt;
+		if (enemy->attackTime < 0) enemy->attackTime = 0; 
+	}
+
 	if (enemy->type & FOLLOW)  enemy_follow(enemy, map, playerPos, playerSize, dt);
 	if (enemy->type & SHOOTER) enemy_shoot(enemy, map, pm, playerPos, playerSize, dt);
 }
@@ -60,7 +67,22 @@ void enemy_shoot(Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPo
 	enemy_calcDifference(enemy, playerPos, playerSize, &cx, &cy, SHOOTER);
 
 	float erro = clamp(cy, -50, 50);
-	if (erro > 8.f || erro < -8.f) enemy_movement(enemy, map, cx, erro, dt);
+	if (erro > 9.f || erro < -9.f) enemy_movement(enemy, map, cx, erro, dt);
+	if (enemy->attackTime > 0) return;
+	
+	if (!(erro > -40 && erro < 40)) return;
+	Vector2 position = {
+		enemy->position.x + (float)(enemy->size) / 4,
+		enemy->position.y + (float)(enemy->size) / 4
+	};
+
+	Direction dir;
+	if (enemy->position.x > playerPos.x) dir = LEFT;
+	else if (enemy->position.x < playerPos.x) dir = RIGHT;
+	else dir = NONE;
+
+	enemy->attackTime = ENEMY_ATTACK_TIME;
+	pm_active(pm, position, (int)(enemy->size / 2), 290, dir, PURPLE, ENEMY);
 }
 
 void enemy_follow(Enemy *enemy, Map *map, Vector2 playerPos, float playerSize, float dt)

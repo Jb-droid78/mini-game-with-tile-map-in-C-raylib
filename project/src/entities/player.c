@@ -66,12 +66,12 @@ void player_chechHitbox(Player *player, Map *map, float dt, int dx, int dy)
 
 void player_shoot(Player *player, ProjectileManager *pm, Direction dir)
 {
-	Vector2 position; 
+	Vector2 position = {
+		player->position.x + (float)player->size / 4,
+		player->position.y + (float)player->size / 4
+	};
 
-	position.x = player->position.x + (float)player->size / 4;
-	position.y = player->position.y + (float)player->size / 4;
-
-	player->attackTime = ATTACK_TIME;
+	player->attackTime = PLAYER_ATTACK_TIME;
 	pm_active(pm, position, (int)(player->size / 2), 300, dir, BLUE, PLAYER);
 }
 

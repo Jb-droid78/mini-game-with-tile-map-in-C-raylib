@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef enum { UP, DOWN, LEFT, RIGHT } Direction;
+typedef enum { UP, DOWN, LEFT, RIGHT, NONE } Direction;
 
 typedef enum {
 	PLAYER = (1 << 0),

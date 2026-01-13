@@ -7,7 +7,7 @@
 
 #include <raylib.h>
 
-#define ATTACK_TIME 0.25
+#define PLAYER_ATTACK_TIME 0.25
 
 typedef struct Player {
 	Vector2 position;

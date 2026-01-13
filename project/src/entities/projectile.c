@@ -30,6 +30,7 @@ void projectile_movement(Projectile *projectile, Map *map, float dt)
 		case DOWN:  projectile->position.y += projectile->speed * dt; break;
 		case LEFT:  projectile->position.x -= projectile->speed * dt; break;
 		case RIGHT: projectile->position.x += projectile->speed * dt; break;
+		default: return;
 	}
 
 	if (map_hasFlags(map, projectile->position.x, projectile->position.y, SOLID) ||

@@ -7,6 +7,8 @@
 #include <raylib.h>
 #include <stdint.h>
 
+#define ENEMY_ATTACK_TIME 0.45
+
 typedef enum {
 	SHOOTER = 0b0001,
 	FOLLOW  = 0b0010,
@@ -18,6 +20,7 @@ typedef struct Enemy {
 	float speed;
 	uint32_t type;
 	Color color;
+	float attackTime;
 
 	void (*update)(struct Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt);
 	void (*draw)(struct Enemy *enemy);
