@@ -1,7 +1,7 @@
 #ifndef CLAMP_H
 #define CLAMP_H
 
-float clamp(float v, float min, float max) 
+static inline float clamp(float v, float min, float max) 
 {
   if (v < min) return min;
   if (v > max) return max;

@@ -61,25 +61,15 @@ void map_format(Map *map, const char symbol, size_t index)
     // map->tile[index].physics = 0;
     map->tile[index].color = BLACK;
     break;
-  case ':': 
-    // map->tile[index].physics = 0;
-    map->tile[index].color = GRAY;
-    break;
-  case '#': 
-    map->tile[index].physics = DAMAGE;
-    map->tile[index].color = RED;
-    break;
   case '=':
     map->tile[index].physics = SOLID;
     map->tile[index].color = WHITE; 
     break;
   case '!':
-    // map->tile[index].physics = SOLID;
     map->tile[index].color = BLACK;
     map_activeEnemy(map, (int)index, FOLLOW);
     break;
   case '@':
-    // map->tile[index].physics = SOLID;
     map->tile[index].color = BLACK;
     map_activeEnemy(map, (int)index, SHOOTER);
     break;

@@ -23,6 +23,7 @@ void app_destroy(App *app);
 
 void app_runLoop(App *app);
 void app_update(App *app, float dt);
+void app_checkCollision(App *app);
 void app_draw(App *app);
 
 #endif // APLICATION_H

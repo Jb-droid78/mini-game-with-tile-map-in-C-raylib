@@ -1,6 +1,5 @@
 #include "managers/enemy_manager.h"
 #include "entities/enemy.h"
-#include <stdio.h>
 
 void nm_active(EnemyManager *nm, Vector2 position, int size, float speed, Color color, uint32_t flags)
 {

@@ -9,24 +9,35 @@
 #include <raylib.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 
 void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color color, uint32_t flags)
 {
   enemy->update = enemy_update;
   enemy->draw = enemy_draw;
+  
   enemy->position = position;
   enemy->size = size;
   enemy->speed = speed;
   enemy->color = color;
   enemy->type = flags;
+  enemy->health = 100;
   enemy->attackTime = 0;
+  enemy->iFrameTime = 0;
   enemy->actived = true;
-  printf("passo aqui tbm\n");
 }
 
 void enemy_update(Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt)
 {
+  if (enemy->health == 0) { 
+    enemy->actived = false;
+    return;
+  }
+
+  if (enemy->iFrameTime > 0) {
+    enemy->iFrameTime -= dt;
+    if (enemy->iFrameTime < 0) enemy->iFrameTime = 0;
+  }
+  
   if (enemy->attackTime > 0) {
     enemy->attackTime -= dt;
     if (enemy->attackTime < 0) enemy->attackTime = 0; 
@@ -111,6 +122,16 @@ void enemy_calcDifference(Enemy *enemy, Vector2 playerPos, float playerSize, flo
   if (flag & FOLLOW) { *cx = cxCalc; *cy = cyCalc; }
 }
 
+void enemy_takeDamage(Enemy *enemy, float damage)
+{
+  if (enemy->iFrameTime > 0 || !enemy->actived) return;
+
+  enemy->health -= damage;
+  if (enemy->health < 0) enemy->health = 0;
+  
+  enemy->iFrameTime = ENEMY_IFRAME_TIME;
+}
+  
 void enemy_draw(Enemy *enemy)
 {
   DrawRectangle(

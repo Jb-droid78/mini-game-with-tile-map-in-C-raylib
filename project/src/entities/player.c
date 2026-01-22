@@ -11,13 +11,22 @@ void player_init(Player *player)
   player->position.x = 500;
   player->position.y = 345;
   player->size = 20;
+  player->health = 100.f;
   player->speed = 230;
   player->color = GREEN;
   player->attackTime = 0;
+  player->iFrameTime = 0;
 }
 
 void player_update(Player *player, Map *map, ProjectileManager *pm, float dt) 
 {
+  if (player->health == 0) return;
+  
+  if (player->iFrameTime > 0) {
+    player->iFrameTime -= dt;
+    if (player->iFrameTime < 0) player->iFrameTime = 0;
+  }
+  
   if (player->attackTime > 0) {
     player->attackTime -= dt;
     if (player->attackTime < 0) player->attackTime = 0;
@@ -73,6 +82,16 @@ void player_shoot(Player *player, ProjectileManager *pm, Direction dir)
 
   player->attackTime = PLAYER_ATTACK_TIME;
   pm_active(pm, position, (int)(player->size / 2), 300, dir, BLUE, PLAYER);
+}
+
+void player_takeDamage(Player *player, float damage)
+{
+  if (player->iFrameTime > 0 || player->health == 0) return;
+
+  player->health -= damage;
+  if (player->health < 0) player->health = 0;
+
+  player->iFrameTime = PLAYER_IFRAME_TIME;
 }
 
 void player_draw(Player *player)

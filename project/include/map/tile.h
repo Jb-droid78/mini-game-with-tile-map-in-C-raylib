@@ -8,7 +8,6 @@
 
 typedef enum {
   SOLID  = 1 << 0,
-  DAMAGE = 1 << 1,
 } TileFlags;
 
 typedef struct Tile {
