@@ -2,6 +2,6 @@
 
 int main(void) 
 {
-	App app;
-	return app_execute(&app);
+  App app;
+  return app_execute(&app);
 }

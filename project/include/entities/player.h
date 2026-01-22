@@ -1,20 +1,20 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "map/map.h"
 #include "projectile.h"
-#include "managers/projectile_manager.h"
+typedef struct Map Map;
+typedef struct ProjectileManager ProjectileManager;
 
 #include <raylib.h>
 
 #define PLAYER_ATTACK_TIME 0.25
 
 typedef struct Player {
-	Vector2 position;
-	Color color;
-	int size;
-	float speed;
-	float attackTime;
+  Vector2 position;
+  Color color;
+  int size;
+  float speed;
+  float attackTime;
 } Player;
 
 void player_init(Player *player);

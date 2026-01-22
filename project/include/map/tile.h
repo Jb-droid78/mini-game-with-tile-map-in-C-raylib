@@ -7,13 +7,13 @@
 #define TILE_SIZE 30
 
 typedef enum {
-	SOLID  = 1 << 0,
-	DAMAGE = 1 << 1,
+  SOLID  = 1 << 0,
+  DAMAGE = 1 << 1,
 } TileFlags;
 
 typedef struct Tile {
-	int physics;
-	Color color;
+  int physics;
+  Color color;
 } Tile; 
 
 #endif // TILE_H

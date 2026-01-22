@@ -1,7 +1,7 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "map/map.h"
+typedef struct Map Map;
 
 #include <raylib.h>
 #include <stdbool.h>
@@ -10,22 +10,22 @@
 typedef enum { UP, DOWN, LEFT, RIGHT, NONE } Direction;
 
 typedef enum {
-	PLAYER = (1 << 0),
-	ENEMY  = (1 << 1),
+  PLAYER = (1 << 0),
+  ENEMY  = (1 << 1),
 } Flags;
 
 typedef struct Projectile {
-	Vector2 position;
-	Direction dir;
-	float speed;
-	int size;
+  Vector2 position;
+  Direction dir;
+  float speed;
+  int size;
 	
-	bool actived;
-	Color color;
-	uint32_t type;
+  bool actived;
+  Color color;
+  uint32_t type;
 
-	void (*update)(struct Projectile *projectile, Map *map, float dt);
-	void (*draw)(struct Projectile *projectile);
+  void (*update)(struct Projectile *projectile, Map *map, float dt);
+  void (*draw)(struct Projectile *projectile);
 } Projectile; 
 
 void projectile_init(Projectile *projectile, Vector2 position, int size, float speed, Direction dir, Color color, uint32_t flags);

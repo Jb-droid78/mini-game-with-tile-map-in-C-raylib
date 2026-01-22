@@ -6,7 +6,7 @@
 #define MAX_PROJECTILES 100
 
 typedef struct ProjectileManager {
-	Projectile projectile[MAX_PROJECTILES];
+  Projectile projectile[MAX_PROJECTILES];
 } ProjectileManager;
 
 void pm_active(ProjectileManager *pm, Vector2 position, int size, float speed, Direction dir, Color color, uint32_t flags);

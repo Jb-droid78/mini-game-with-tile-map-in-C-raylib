@@ -1,6 +1,6 @@
 #include "aplication.h"
-#include "entities/enemy.h"
 #include "entities/player.h"
+#include "managers/enemy_manager.h"
 #include "managers/projectile_manager.h"
 #include "map/map.h"
 
@@ -9,62 +9,55 @@
 
 void app_init(App *app) 
 {
-	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "game enginee 2D");
-	SetTargetFPS(FPS);
+  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "game enginee 2D");
+  SetTargetFPS(FPS);
 
-	map_init(&app->map);
-	player_init(&app->player);
-
-	Vector2 p = {40, 345};
-	enemy_init(&app->enemy, p, 30, 2, RED, SHOOTER);
+  map_init(&app->map, &app->nm);
+  player_init(&app->player);
 }
 
 void app_destroy(App *app)
 {
-	map_destroy(&app->map);
-	CloseWindow();
+  map_destroy(&app->map);
+  CloseWindow();
 }
 
 int app_execute(App *app)
 {
-	app_init(app);
-	app_runLoop(app);
-	app_destroy(app);
-	return EXIT_SUCCESS;
+  app_init(app);
+  app_runLoop(app);
+  app_destroy(app);
+  return EXIT_SUCCESS;
 }
 
 void app_runLoop(App *app) 
 {
 	
-	while (!WindowShouldClose()) {
-		float	dt = GetFrameTime();
+  while (!WindowShouldClose()) {
+    float	dt = GetFrameTime();
 
-		app_update(app, dt);
-		app_draw(app);
-	}
+    app_update(app, dt);
+    app_draw(app);
+  }
 }
 
 void app_update(App *app, float dt)
 {	
-	player_update(&app->player, &app->map, &app->pm, dt);
-	pm_update(&app->pm, &app->map, dt);
-
-	enemy_update(&app->enemy, &app->map, &app->pm, app->player.position, (float)app->player.size, dt);
+  player_update(&app->player, &app->map, &app->pm, dt);
+  nm_update(&app->nm, &app->map, &app->pm, app->player.position, app->player.size, dt);
+  pm_update(&app->pm, &app->map, dt);
 }
 
 void app_draw(App *app)
 {
-	BeginDrawing();
-	ClearBackground(BLACK);
+  BeginDrawing();
+  ClearBackground(BLACK);
 
-	map_draw(&app->map);
-	player_draw(&app->player);
-	pm_draw(&app->pm);
+  map_draw(&app->map);
+  player_draw(&app->player);
+  nm_draw(&app->nm);
+  pm_draw(&app->pm);
 
-	enemy_draw(&app->enemy);
-
-	DrawFPS(10, 7);
-	EndDrawing();
+  DrawFPS(10, 7);
+  EndDrawing();
 }
-
-

@@ -1,22 +1,20 @@
 #ifndef APLICATION_H
 #define APLICATION_H
 
-#include "entities/enemy.h"
 #include "map/map.h"
 #include "entities/player.h"
-
 #include "managers/projectile_manager.h"
+#include "managers/enemy_manager.h"
 
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 690
 #define FPS 60
 
 typedef struct App {
-	Map map;
-	Player player;
-	ProjectileManager pm;
-
-	Enemy enemy; // temp
+  Map map;
+  Player player;
+  ProjectileManager pm;
+  EnemyManager nm;
 } App;
 
 void app_init(App *app);

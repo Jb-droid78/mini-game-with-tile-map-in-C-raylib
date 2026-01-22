@@ -1,29 +1,31 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "managers/projectile_manager.h"
-#include "map/map.h"
+typedef struct Map Map;
+typedef struct ProjectileManager ProjectileManager;
 
 #include <raylib.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #define ENEMY_ATTACK_TIME 0.45
 
 typedef enum {
-	SHOOTER = 0b0001,
-	FOLLOW  = 0b0010,
+  SHOOTER = 0b0001,
+  FOLLOW  = 0b0010,
 } EnemyFlags;
 
 typedef struct Enemy {
-	Vector2 position;
-	int size;
-	float speed;
-	uint32_t type;
-	Color color;
-	float attackTime;
+  Vector2 position;
+  int size;
+  float speed;
+  uint32_t type;
+  Color color;
+  float attackTime;
+  bool actived;
 
-	void (*update)(struct Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt);
-	void (*draw)(struct Enemy *enemy);
+  void (*update)(struct Enemy *enemy, Map *map, ProjectileManager *pm, Vector2 playerPos, float playerSize, float dt);
+  void (*draw)(struct Enemy *enemy);
 } Enemy;
 
 void enemy_init(Enemy *enemy, Vector2 position, int size, float speed, Color color, uint32_t flags);
